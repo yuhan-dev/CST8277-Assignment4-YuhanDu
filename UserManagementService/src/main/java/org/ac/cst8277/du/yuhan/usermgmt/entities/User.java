@@ -1,0 +1,29 @@
+package org.ac.cst8277.du.yuhan.usermgmt.entities;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private String displayName;
+
+    @Column(nullable = false)
+    private Boolean enabled = true;
+
+    @Column(nullable = false)
+    private String role = "producer";
+}

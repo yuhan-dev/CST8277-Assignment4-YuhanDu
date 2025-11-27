@@ -1,0 +1,78 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "CST8277 Assignment 3 - YuhanTweet",
+  "dateExported": "2025-11-21",
+  "requests": [
+    {
+      "name": "Register User (yuhandu)",
+      "method": "POST",
+      "url": "http://localhost:8081/auth/register",
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"username\": \"yuhandu\",\n  \"password\": \"123456\"\n}"
+      }
+    },
+    {
+      "name": "Login (yuhandu)",
+      "method": "POST",
+      "url": "http://localhost:8081/auth/login",
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"username\": \"yuhandu\",\n  \"password\": \"123456\"\n}"
+      }
+    },
+    {
+      "name": "Follow self (2 → 2)",
+      "method": "POST",
+      "url": "http://localhost:8082/subscriptions/2/follow/2",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "<PUT TOKEN HERE>"
+        }
+      ]
+    },
+    {
+      "name": "Publish Message (user 2)",
+      "method": "POST",
+      "url": "http://localhost:8082/messages/2",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "<PUT TOKEN HERE>"
+        }
+      ],
+      "body": {
+        "type": "text",
+        "raw": "Hello from yuhandu!"
+      }
+    },
+    {
+      "name": "Get All Messages",
+      "method": "GET",
+      "url": "http://localhost:8082/messages",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "<PUT TOKEN HERE>"
+        }
+      ]
+    },
+    {
+      "name": "Get Timeline (subscriber 2)",
+      "method": "GET",
+      "url": "http://localhost:8082/messages/subscriber/2",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "<PUT TOKEN HERE>"
+        }
+      ]
+    },
+    {
+      "name": "Unauthorized Test (401)",
+      "method": "GET",
+      "url": "http://localhost:8082/messages"
+    }
+  ]
+}

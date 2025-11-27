@@ -1,0 +1,263 @@
+openapi: 3.0.3
+info:
+  title: YuhanTweetService API
+  version: 1.0.0
+  description: >
+    API contract for YuhanTweetService including tweet posting, message retrieval,
+    and producer-subscriber subscription functionality.
+
+servers:
+  - url: http://localhost:8082
+
+paths:
+
+  #############################
+  # TweetController Endpoints #
+  #############################
+
+  /tweets:
+    post:
+      summary: Create a new tweet
+      tags: [Tweets]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tweet"
+      responses:
+        "200":
+          description: Tweet successfully created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tweet"
+
+    get:
+      summary: Get all tweets
+      tags: [Tweets]
+      responses:
+        "200":
+          description: List of tweets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tweet"
+
+  /tweets/producer/{producerId}:
+    get:
+      summary: Get tweets posted by a specific producer
+      tags: [Tweets]
+      parameters:
+        - name: producerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of tweets from that producer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tweet"
+
+
+  ###############################
+  # MessageController Endpoints #
+  ###############################
+
+  /messages:
+    post:
+      summary: Create a new message
+      tags: [Messages]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Message"
+      responses:
+        "200":
+          description: Message created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+
+    get:
+      summary: Get all messages
+      tags: [Messages]
+      responses:
+        "200":
+          description: List of messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Message"
+
+  /messages/producer/{producerId}:
+    get:
+      summary: Get messages by producer ID
+      tags: [Messages]
+      parameters:
+        - name: producerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Messages created by the producer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Message"
+
+  /messages/subscriber/{subscriberId}:
+    get:
+      summary: Get messages visible to a subscriber
+      tags: [Messages]
+      parameters:
+        - name: subscriberId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Messages visible to this subscriber
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Message"
+
+
+  ######################################
+  # SubscriptionController Endpoints    #
+  ######################################
+
+  /subscriptions:
+    post:
+      summary: Create a subscription (subscriber follows producer)
+      tags: [Subscriptions]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Subscription"
+      responses:
+        "200":
+          description: Subscription created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subscription"
+
+  /subscriptions/subscriber/{subscriberId}:
+    get:
+      summary: Get producer IDs that the subscriber follows
+      tags: [Subscriptions]
+      parameters:
+        - name: subscriberId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of producer IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                  example: 1
+
+  /subscriptions/producer/{producerId}:
+    get:
+      summary: Get subscriber IDs who follow this producer
+      tags: [Subscriptions]
+      parameters:
+        - name: producerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of subscriber IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                  example: 2
+
+
+components:
+  schemas:
+
+    Tweet:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        producerId:
+          type: integer
+          example: 2
+        content:
+          type: string
+          example: "Hello from TweetController"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2025-11-26T10:15:30"
+
+    Message:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 10
+        producerId:
+          type: integer
+          example: 1
+        content:
+          type: string
+          example: "A message posted by producer 1"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2025-11-26T09:00:00"
+
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 3
+        subscriberId:
+          type: integer
+          example: 2
+        producerId:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          format: date-time
+          example: "2025-11-25T12:30:00"

@@ -1,0 +1,201 @@
+openapi: 3.0.3
+info:
+  title: UserManagementService API
+  version: 1.0.0
+  description: >
+    API contract for User Management Service including user registration, login,
+    role retrieval, and token validation for cross-service authentication.
+
+servers:
+  - url: http://localhost:8081
+
+paths:
+
+  /users/register:
+    post:
+      summary: Register a new user
+      description: Creates a new user account with username, password, and role.
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        "201":
+          description: User successfully created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Username already exists
+
+  /users/login:
+    post:
+      summary: Login user and issue token
+      description: Validates username/password and returns a UUID token.
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login successful, token issued
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "401":
+          description: Invalid credentials
+
+  /users:
+    get:
+      summary: Get all registered users
+      tags:
+        - Users
+      responses:
+        "200":
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+  /roles:
+    get:
+      summary: Retrieve all available roles
+      tags:
+        - Roles
+      responses:
+        "200":
+          description: List of roles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Role"
+
+  /auth/validate:
+    post:
+      summary: Validate user token
+      description: Validates UUID token issued at login. Used by TweetService.
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TokenValidationRequest"
+      responses:
+        "200":
+          description: Token is valid
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenValidationResponse"
+        "401":
+          description: Token invalid or unauthorized
+
+
+components:
+
+  schemas:
+
+    RegisterRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "alice"
+        password:
+          type: string
+          example: "123456"
+        role:
+          type: string
+          example: "subscriber"
+      required:
+        - username
+        - password
+        - role
+
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "yuhan"
+        password:
+          type: string
+          example: "123456"
+      required:
+        - username
+        - password
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "dd6cf6c2-53e3-4ec8-b930-2820e74d2541"
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        username:
+          type: string
+          example: "yuhan"
+        role:
+          type: string
+          example: "producer"
+        enabled:
+          type: boolean
+          example: true
+
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "subscriber"
+
+    TokenValidationRequest:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "dd6cf6c2-53e3-4ec8-b930-2820e74d2541"
+      required:
+        - token
+
+    TokenValidationResponse:
+      type: object
+      properties:
+        valid:
+          type: boolean
+          example: true
+        userId:
+          type: integer
+          example: 2
+        username:
+          type: string
+          example: "yuhan"
+        role:
+          type: string
+          example: "producer"
