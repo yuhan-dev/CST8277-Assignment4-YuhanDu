@@ -1,0 +1,118 @@
+# CST8277 – Assignment 4
+## Git Integration, API Contract, and Final Project Structure
+Author: Yuhan Du  
+Student ID: 041156531  
+Section: 450
+
+---
+
+## 1. Project Overview
+
+This repository contains two microservices implemented across Assignments 1–4:
+
+1. **UserManagementService (UMS)**
+    - Handles user registration, login, authentication, and token generation.
+
+2. **YuhanTweetService (TS)**
+    - Allows authenticated users with a valid token to publish tweets, follow producers, and retrieve messages.
+
+Both services use:
+- Java 17
+- Spring Boot + WebFlux (Netty server)
+- REST API communication
+- MySQL 8 database
+
+---
+
+## 2. Repository Structure
+
+Assignment 4/
+│
+├── UserManagementService/
+│ ├── src/
+│ ├── pom.xml
+│ └── README.md
+│
+├── TweetService/
+│ ├── src/
+│ ├── pom.xml
+│ └── README.md
+│
+├── Assignment4_YAML/
+│ ├── yuhanTweet.yaml
+│ └── usermanagement.yaml
+│
+└── README.md ← (current file)
+
+---
+
+## 3. How to Build
+
+Both services use Maven. To build:
+
+Run commands from each service directory.
+
+---
+
+## 4. How to Run the Services
+
+### **UserManagementService**
+
+Default port: **8080**
+
+### **TweetService**
+
+Default port: **8082**
+
+---
+
+## 5. API Testing Instructions
+
+### 1) Register User
+POST http://localhost:8081/api/register
+
+### 2) Login User (returns token)
+POST http://localhost:8081/api/login
+
+### 3) Create Tweet
+POST http://localhost:8082/tweets  
+Headers:
+
+
+### 4) Get All Producers
+GET http://localhost:8082/producers
+
+### 5) Get Messages by Producer
+GET http://localhost:8082/messages/producer/{id}
+
+### 6) Get Messages Visible to Subscriber
+GET http://localhost:8082/messages/subscriber/{id}
+
+---
+
+## 6. Swagger API Files
+
+All API contracts for Assignment 4 are stored in the folder:
+
+
+Including:
+- `yuhanTweet.yaml`
+- `usermanagement.yaml`
+
+---
+
+## 7. Git Usage Demonstrated
+
+This repository demonstrates:
+- Initialization of Git repository
+- Commit history
+- Use of `.gitignore`
+- Push to GitHub
+- Project organization
+
+---
+
+## 8. Notes
+
+All diagrams required in Assignment 4 (Activity, Sequence, Class, Functional) are saved as JPG files for submission in the final ZIP.
+
