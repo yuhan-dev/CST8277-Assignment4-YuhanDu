@@ -6,7 +6,7 @@
     {
       "name": "Register User (yuhandu)",
       "method": "POST",
-      "url": "http://localhost:8081/auth/register",
+      "url": "http://localhost:8080/auth/register",
       "body": {
         "type": "json",
         "raw": "{\n  \"username\": \"yuhandu\",\n  \"password\": \"123456\"\n}"
@@ -15,7 +15,7 @@
     {
       "name": "Login (yuhandu)",
       "method": "POST",
-      "url": "http://localhost:8081/auth/login",
+      "url": "http://localhost:8080/auth/login",
       "body": {
         "type": "json",
         "raw": "{\n  \"username\": \"yuhandu\",\n  \"password\": \"123456\"\n}"

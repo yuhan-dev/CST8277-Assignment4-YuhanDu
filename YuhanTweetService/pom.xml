@@ -5,7 +5,6 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Parent Spring Boot definition -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -17,7 +16,7 @@
     <artifactId>YuhanTweetService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>YuhanTweetService</name>
-    <description>Tweet microservice for CST8277 Assignment 3</description>
+    <description>Tweet microservice for CST8277 Assignment 4</description>
 
     <properties>
         <java.version>17</java.version>
@@ -25,10 +24,10 @@
 
     <dependencies>
 
-        <!-- Web MVC (NOT WebFlux) -->
+        <!-- IMPORTANT: WebFlux, NOT Web MVC -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
         <!-- JPA / Hibernate -->
@@ -44,14 +43,14 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Lombok (auto-getters/setters) -->
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
 
-        <!-- DevTools (optional hot reload) -->
+        <!-- DevTools -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -66,18 +65,11 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
-
     </dependencies>
 
-    <!-- Build section with Spring Boot Maven plugin -->
     <build>
         <plugins>
 
-            <!-- Annotation processing (for Lombok) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -91,7 +83,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Spring Boot build plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

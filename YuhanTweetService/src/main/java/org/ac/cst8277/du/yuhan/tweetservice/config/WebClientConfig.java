@@ -7,10 +7,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebClientConfig {
 
+    /**
+     * WebClient used to call the UserManagementService
+     * Running on http://localhost:8081
+     */
     @Bean
-    public WebClient userManagementClient() {
+    public WebClient userMgmtClient() {
         return WebClient.builder()
-                .baseUrl("http://localhost:8080")
+                .baseUrl("http://localhost:8081")
                 .build();
     }
 }
