@@ -1,12 +1,13 @@
 package org.ac.cst8277.du.yuhan.tweetservice.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.server.WebFilter;
+import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
 
-/**
- * Empty configuration class to activate WebFlux configuration.
- * WebFilters are auto-detected by component scanning.
- */
+import jakarta.annotation.PostConstruct;
+
 @Configuration
 public class WebFluxConfig {
-    // No additional configuration required
+
 }

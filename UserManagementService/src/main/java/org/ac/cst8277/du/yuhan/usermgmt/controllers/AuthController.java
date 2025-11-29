@@ -23,16 +23,6 @@ public class AuthController {
         this.userRepository = userRepository;
     }
 
-    /**
-     * LOGIN endpoint.
-     * Validates username and password, then generates a JWT.
-     *
-     * Body example:
-     * {
-     *   "username": "yuhan",
-     *   "password": "123456"
-     * }
-     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User req) {
 
@@ -68,26 +58,23 @@ public class AuthController {
         }
     }
 
-    /**
-     * VALIDATE TOKEN endpoint.
-     * Used by other microservices (e.g., TweetService) to validate JWTs.
-     *
-     * Request body example:
-     * {
-     *   "token": "eyJhbGciOiJIUzI1NiJ9..."
-     * }
-     */
-    @PostMapping("/validate")
-    public ResponseEntity<?> validateToken(@RequestBody Map<String, String> request) {
-        String token = request.get("token");
-
+    @GetMapping("/validate")
+    public ResponseEntity<?> validateToken(@RequestParam String token) {
         try {
-            // Validate token (throws exception if invalid or expired)
+            // test token
             JwtUtil.validateToken(token);
-            return ResponseEntity.ok("VALID");
+
+            // getting the user name from token
+            String username = JwtUtil.extractUsername(token);
+
+            Map<String, String> result = new HashMap<>();
+            result.put("username", username);
+
+            return ResponseEntity.ok(result);   // 返回 {"username": "yuhan"}
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("INVALID");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
         }
     }
+
 
 }

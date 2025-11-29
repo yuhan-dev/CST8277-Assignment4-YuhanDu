@@ -9,12 +9,12 @@ public class WebClientConfig {
 
     /**
      * WebClient used to call the UserManagementService
-     * Running on http://localhost:8081
+     * Running on http://localhost:8080
      */
     @Bean
     public WebClient userMgmtClient() {
         return WebClient.builder()
-                .baseUrl("http://localhost:8081")
+                .baseUrl("http://localhost:8080")
                 .build();
     }
 }
