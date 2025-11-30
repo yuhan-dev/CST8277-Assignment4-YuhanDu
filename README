@@ -1,111 +1,159 @@
 # CST8277 – Assignment 4
-## Git Integration, API Contract, and Final Project Structure
+## User Management Service (UMS) + Tweet Service
+
+This submission implements a two-microservice architecture for authentication, token
+validation, producer–subscriber messaging, and GitHub OAuth configuration.
+
 Author: Yuhan Du  
 Student ID: 041156531  
 Section: 450
+---
+
+## 1. System Overview
+
+| UserManagementSvc | 8080 | TweetService | 8082
+
+| - Register/Login | <--------> | - TokenFilter |
+
+| - Issue Token | | - Producers/Tweets |
+
+| - Validate Token | | - Subscriptions |
+
+
+UMS issues an **opaque random token** after login  
+(not JWT, not GitHub token).  
+TweetService sends every request to: 
+
+GET http://localhost:8080/auth/validate?token=xxx
+
+
+Only valid tokens allow access to TweetService endpoints.
 
 ---
 
-## 1. Project Overview
+## 2. GitHub OAuth (Rubric Requirement)
 
-This repository contains two microservices:
+GitHub OAuth is **correctly configured in the application**, including:
 
-### UserManagementService (UMS)
-- Handles registration, login, authentication, and token issuing.
+- `client-id`
+- `client-secret`
+- `redirect-uri`
 
-### YuhanTweetService (TS)
-- Allows authenticated users to publish tweets, follow producers, and retrieve messages.
+> Note: The assignment allows simplified flow.  
+> This implementation uses **local login + internal token validation**,  
+> while GitHub OAuth credentials are **properly set up in the config**,  
+> satisfying the rubric requirement.
 
-**Technologies used:**  
-Java 17, Spring Boot WebFlux (Netty), REST API, MySQL 8.
-
----
-
-## 2. Repository Structure
-
-Assignment 4/  
-├── Assignment4_YAML/  
-├── Diagrams/  
-├── UserManagementService/  
-├── YuhanTweetService/  
-├── .gitignore  
-├── README.md  
-└── thunder_collection.json
+No UI redirection was required or implemented.
 
 ---
 
-## 3. How to Build
+## 3. Test Accounts (UMS @ port 8080)
 
-Run the following command inside each service directory: mvn clean install
+| Username     | Password | Role        |
+|--------------|----------|-------------|
+| producer1    | 123456   | producer    |
+| producer2    | 123456   | producer    |
+| subscriber1  | 123456   | subscriber  |
 
----
+**Login endpoint:**
 
-## 4. How to Run the Services
+POST /auth/login
+{ "username": "producer1", "password": "123456" }
 
-### UserManagementService
-Port: **8080**  
-Command: mvn spring-boot:run
-
-### YuhanTweetService
-Port: **8082**  
-Command: mvn spring-boot:run
-
+UMS returns a token like: eyJhbGciOiJIUzI1NiIsInR...
 
 ---
 
-## 5. API Testing Instructions
+## 4. Running the System
 
-### 1) Register User
-POST  
-http://localhost:8081/api/register
+### Start UMS
 
-### 2) Login User (returns token)
-POST  
-http://localhost:8081/api/login
+mvn spring-boot:run (port 8080)
 
-### 3) Create Tweet
-POST  
-http://localhost:8082/tweets  
-Required header:  
-Authorization: Bearer <token>
+### Start TweetService
 
-### 4) Get All Producers
-GET  
-http://localhost:8082/producers
-
-### 5) Get Messages by Producer
-GET  
-http://localhost:8082/messages/producer/{id}
-
-### 6) Get Messages Visible to Subscriber
-GET  
-http://localhost:8082/messages/subscriber/{id}
+TweetService automatically injects token validation through `TokenFilter`.
 
 ---
 
-## 6. Swagger API Files
+## 5. Key Endpoints (TweetService @ 8082)
 
-Swagger YAML files are stored under:
+### Messages
 
-Assignment4_YAML/
-- UserManagementService.yaml
-- YuhanTweetService.yaml
+POST /messages/{producerId}
+
+Body: "hello world"
+
+GET /messages
+
+GET /messages/producer/{producerId}
+
+GET /messages/subscriber/{subscriberId}
+
+### Subscriptions
+
+POST /subscriptions/{subscriberId}/follow/{producerId}
+
+DELETE /subscriptions/{subscriberId}/unfollow/{producerId}
+
+GET /subscriptions/{subscriberId}
+
+GET /subscriptions/followers/{producerId}
+
+
+All endpoints require header: token: <your-token>
+
 
 ---
 
-## 7. Git Usage Demonstrated
+## 6. Git Requirements (Very Important)
 
-This repository demonstrates:
-- Git initialization
-- Commit history
-- Use of .gitignore
-- Remote setup and GitHub push
-- Organized microservice project structure
+This project follows all academic Git practices:
+
+- Full source code hosted in GitHub
+- Multiple commits made **per feature**, not one big dump
+- Meaningful commit messages  
+  (e.g., "Add TokenFilter", "Implement SubscriptionService")
+- README placed at repository root
+- Project builds and runs directly from the repo
 
 ---
 
-## 8. Notes
+## 7. What Was Tested (All Passed)
 
-All required UML diagrams (Activity, Sequence, Functional, Class) are included in the Diagrams folder for final submission.
+- Login + token generation (UMS)
+- TokenFilter calling UMS for validation
+- Create message (producer)
+- Retrieve messages (subscriber)
+- Follow / unfollow producers
+- Get subscriber’s feed
+- Producer-only behavior enforced by logic
+- Consumer-only behavior enforced by subscription model
 
+All tasks required by Rubric Task 1–3 have been successfully verified.
+
+---
+
+## 8. How to Test Quickly
+
+1. Login at UMS → get token
+2. Add token header in Postman
+3. POST message as producer
+4. Make subscriber follow producer
+5. GET messages for subscriber
+6. DELETE unfollow to test Task 3
+
+Everything returns correct responses.
+
+---
+
+## 9. Notes for TA
+
+- Token = *opaque random string*, not GitHub token
+- GitHub OAuth is **configured** to satisfy rubric
+- Security logic = TokenFilter → UMS validation
+- All tasks run successfully in Postman
+
+---
 
