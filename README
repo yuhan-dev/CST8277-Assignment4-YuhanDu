@@ -148,7 +148,7 @@ Everything returns correct responses.
 
 ---
 
-## 9. Notes for TA
+## 9. Notes
 
 - Token = *opaque random string*, not GitHub token
 - GitHub OAuth is **configured** to satisfy rubric
