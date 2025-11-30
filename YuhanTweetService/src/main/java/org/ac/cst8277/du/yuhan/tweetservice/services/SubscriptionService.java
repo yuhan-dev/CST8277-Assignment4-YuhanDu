@@ -4,7 +4,6 @@ import org.ac.cst8277.du.yuhan.tweetservice.entities.Subscription;
 import org.ac.cst8277.du.yuhan.tweetservice.repositories.SubscriptionRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -17,22 +16,15 @@ public class SubscriptionService {
     }
 
     public Subscription subscribe(Long subscriberId, Long producerId) {
-        // 防止重复订阅
-        subscriptionRepository.findBySubscriberIdAndProducerId(subscriberId, producerId)
-                .ifPresent(s -> {
-                    throw new RuntimeException("Already subscribed.");
-                });
-
-        Subscription sub = new Subscription();
-        sub.setSubscriberId(subscriberId);
-        sub.setProducerId(producerId);
-        sub.setCreatedAt(LocalDateTime.now());
-
-        return subscriptionRepository.save(sub);
+        return subscriptionRepository
+                .findBySubscriberIdAndProducerId(subscriberId, producerId)
+                .orElseGet(() -> subscriptionRepository.save(new Subscription(subscriberId, producerId)));
     }
 
     public void unsubscribe(Long subscriberId, Long producerId) {
-        subscriptionRepository.deleteBySubscriberIdAndProducerId(subscriberId, producerId);
+        subscriptionRepository
+                .findBySubscriberIdAndProducerId(subscriberId, producerId)
+                .ifPresent(subscriptionRepository::delete);
     }
 
     public List<Subscription> getSubscriptionsForSubscriber(Long subscriberId) {
@@ -43,4 +35,3 @@ public class SubscriptionService {
         return subscriptionRepository.findByProducerId(producerId);
     }
 }
-

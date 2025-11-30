@@ -14,6 +14,4 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
 
     Optional<Subscription> findBySubscriberIdAndProducerId(Long subscriberId, Long producerId);
 
-    void deleteBySubscriberIdAndProducerId(Long subscriberId, Long producerId);
 }
-
