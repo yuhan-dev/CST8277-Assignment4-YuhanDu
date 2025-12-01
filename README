@@ -161,7 +161,15 @@ All SQL files are located inside the `/sql` folder.
 
 ---
 
-## 10. Notes
+## 10. Diagram Clarification
+
+The diagrams illustrate the architectural flow and class relationships at a high level.
+
+A few naming differences exist 
+(e.g., TokenInterceptor vs. TokenFilter, conceptual method names vs. REST route-based names), 
+but the underlying functionality and architecture remain fully consistent with the implemented code.
+
+## 11. Notes
 
 - Token = *opaque random string*, not GitHub token
 - GitHub OAuth is **configured** to satisfy rubric
