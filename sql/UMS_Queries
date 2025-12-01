@@ -1,0 +1,8 @@
+-- View all users
+SELECT * FROM users;
+
+-- Find producers
+SELECT * FROM users WHERE role = 'producer';
+
+-- Find subscribers
+SELECT * FROM users WHERE role = 'subscriber';

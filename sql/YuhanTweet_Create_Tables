@@ -1,0 +1,26 @@
+-- =====================================================
+-- Drop old tables (optional, for clean re-test)
+-- =====================================================
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS subscriptions;
+
+-- =====================================================
+-- Create Subscriptions Table
+-- =====================================================
+CREATE TABLE subscriptions (
+                               id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                               subscriber_id BIGINT NOT NULL,
+                               producer_id BIGINT NOT NULL,
+                               created_at DATETIME NOT NULL,
+                               CONSTRAINT uc_sub UNIQUE (subscriber_id, producer_id)
+);
+
+-- =====================================================
+-- Create Messages Table
+-- =====================================================
+CREATE TABLE messages (
+                          id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                          producer_id BIGINT NOT NULL,
+                          content VARCHAR(255) NOT NULL,
+                          created_at DATETIME NOT NULL
+);

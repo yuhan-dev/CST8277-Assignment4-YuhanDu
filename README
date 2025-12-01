@@ -147,8 +147,21 @@ All tasks required by Rubric Task 1–3 have been successfully verified.
 Everything returns correct responses.
 
 ---
+## 9. Database Setup (TweetService)
 
-## 9. Notes
+This service uses its own MySQL database (separate from UMS).
+
+1. Run `Create_Tables.sql` to generate `messages` and `subscriptions`.
+2. Run `Insert_Data.sql` to load sample data:
+    - Producers: 1, 2
+    - Subscriber: 6
+3. Run `Queries.sql` to verify the results.
+
+All SQL files are located inside the `/sql` folder.
+
+---
+
+## 10. Notes
 
 - Token = *opaque random string*, not GitHub token
 - GitHub OAuth is **configured** to satisfy rubric

@@ -1,0 +1,18 @@
+-- =====================================================
+-- Insert Subscription Sample Data
+-- subscriber 6 follows producer 1 and 2
+-- =====================================================
+
+INSERT INTO subscriptions (subscriber_id, producer_id, created_at)
+VALUES
+    (6, 1, NOW()),
+    (6, 2, NOW());
+
+-- =====================================================
+-- Insert Message Sample Data
+-- =====================================================
+
+INSERT INTO messages (producer_id, content, created_at)
+VALUES
+    (1, 'Hello from producer1!', NOW()),
+    (2, 'Message from producer2!', NOW());

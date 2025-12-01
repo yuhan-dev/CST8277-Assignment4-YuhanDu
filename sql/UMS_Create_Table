@@ -1,0 +1,14 @@
+-- =====================================================
+-- UMS: Create users table
+-- =====================================================
+
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    display_name VARCHAR(100) NOT NULL,
+    role VARCHAR(50) NOT NULL,
+    enabled BOOLEAN NOT NULL
+);

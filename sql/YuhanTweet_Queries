@@ -1,0 +1,18 @@
+-- =====================================================
+-- 1. View all subscriptions
+-- =====================================================
+SELECT * FROM subscriptions;
+
+-- =====================================================
+-- 2. View all messages
+-- =====================================================
+SELECT * FROM messages;
+
+-- =====================================================
+-- 3. View messages visible to subscriber 6
+-- (messages from producers that subscriber 6 follows)
+-- =====================================================
+SELECT m.*
+FROM messages m
+JOIN subscriptions s ON m.producer_id = s.producer_id
+WHERE s.subscriber_id = 6;
